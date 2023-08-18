@@ -1,0 +1,41 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+news
+{% endblock title %}
+
+{% block content %}
+
+             <div class="container wb">
+    <div class="row centered">
+      <br><br>
+      <div class="col-lg-6">
+        <h4>Публикация № {{ ps.pk }}</h4>
+          <ul>
+              <li align="left">Дата создания: {{ ps.dateCreation|date:'d M Y' }}</li>
+              <li align="left">Категория поста: {{ ps.categoryType }}</li>
+
+          </ul>
+        <p><br><br></p>
+      </div>
+      <div class="col-lg-6">
+        <h4>Заголовок поста</h4>
+          <ul>
+              <h6>{{ ps.title }}</h6>
+
+          </ul>
+        <p><br><br></p>
+      </div>
+
+      <div class="col-lg-2"></div>
+      <h3>Содержание публикации</h3>
+      <div class="col-lg-10 col-lg-offset-1">
+        <p >{{ ps.text }}</p>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

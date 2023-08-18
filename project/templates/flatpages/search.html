@@ -1,0 +1,55 @@
+{% extends 'flatpages/default.html' %}
+
+{% load Censorship_filter %}
+{% load custom_tags %}
+{% block content %}
+    <h1>Страница поиска</h1>
+<hr />
+    <form action="" method="get">
+        {{ filter.form.title }}
+        {{ filter.form.postCategory }}
+        {{ filter.form.dateCreation }}
+        <button type="submit" value="Найти">Поиск</button>
+    </form>
+<hr />
+
+
+ {% if search %}
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Описание статьи</td>
+               <td>Категория</td>
+               <td>Рейтинг</td>
+           </tr>
+
+
+           {% for new in search %}
+           <tr>
+
+               <td class="leftAligned"><a href=../post/{{ new.pk }}>{{ new.title|censor }}</a></td>
+               <td>{{ new.dateCreation|date:'d M Y' }}</td>
+               <td>{{ new.text|truncatewords:20|censor }}</td>
+               <td>{{ new.categoryType }}</td>
+               <td>{{ new.rating }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
